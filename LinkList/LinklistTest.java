@@ -25,8 +25,14 @@ class Node {
 class LinklistOperations {
 	
 	// head is the pointer pointing to the first node of the linklist
-	public Node head;
+	private Node head;
 	
+	public Node getHead() {
+		return head;
+	}
+	public void setHead(Node node) {
+		head = node;
+	}
 	public void insertBeginning(int data) {
 		Node node = new Node();
 		node.setData(data);

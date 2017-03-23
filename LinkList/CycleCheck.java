@@ -57,15 +57,56 @@ class HashCycleCheck {
 	}
 }
 
+// Floyd algorithm. Time Complexity: O(n) , Space Complexity: O(1)
+
+class FloydAlgo {
+	
+	public Node check(Node head) {
+		Node slow, fast;
+		slow = fast = head;
+		if (head == null) {
+			return null;
+		}
+		while (slow.getNext() != null && fast.getNext() != null) {
+			fast = fast.getNext().getNext();
+			slow = slow.getNext();
+			
+			if(slow == fast) {
+				System.out.print("Loop present at: ");
+				break;
+			}
+		}
+		
+		if (slow.getNext()!=null && fast.getNext()!= null) {
+			fast = head;
+			
+			while (fast != slow) {
+				slow = slow.getNext();
+				fast = fast.getNext();
+			}
+			return fast;
+		}
+		System.out.println("No loop present");
+		return null;
+		
+	}
+}
+
 class CycleCheck {
 	public static void main(String s[]) {
 		MakeLinklist list = new MakeLinklist();
 		Node head = list.makeList();
-		HashCycleCheck cycleCheck = new HashCycleCheck();
+		HashCycleCheck sol1 = new HashCycleCheck();
+		FloydAlgo sol2 = new FloydAlgo();
 		
-		Node result = cycleCheck.check(head);
+		Node result = sol1.check(head);
+		
 		if (result!= null) {
-			System.out.println(""+result.getData());
+			System.out.println(""+result.getData() + "-> Hash Tables");
+		}
+		Node result2 = sol2.check(head);
+		if (result2!= null) {
+			System.out.println(""+result2.getData() + "-> Floyd Algorithm");
 		}
 	}
 }

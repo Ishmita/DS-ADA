@@ -31,6 +31,13 @@ class CLLOperations {
 	private CLLNode temp;
 	private int len;
 	
+	public CLLNode getTail() {
+		return tail;
+	}
+	
+	public void setTail (CLLNode node) {
+		tail = node;
+	}
 	public int getLength() {
 		return len;
 	}
@@ -62,12 +69,16 @@ class CLLOperations {
 			tail = node;
 			return;
 		}
-		temp = tail.getNext();
+		/*temp = tail.getNext();
 		while (temp.getNext()!=tail) {
 			temp = temp.getNext();
 		}
 		temp.setNext(node);
-		node.setNext(tail);
+		node.setNext(tail);*/
+		
+		node.setNext(tail.getNext());
+		tail.setNext(node);
+		tail = node;
 	}
 	
 	public CLLNode deleteBeginning() {
@@ -119,7 +130,7 @@ class CLLOperations {
 			System.out.print(temp.getData() + "->");
 			temp = temp.getNext();
 		}
-		System.out.println(" <" + temp.getData() + ">" + " (headNode)");
+		System.out.println("" + temp.getData());
 	}
 }
 

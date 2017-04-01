@@ -14,6 +14,10 @@ class Stack
 	{
 		return top;
 	}
+	
+	public int getTopElement() {
+		return a[top];
+	}
 
 	public void push(int data) throws Exception
 	{

@@ -1,5 +1,5 @@
 // BinaryTreeTest.java
-
+import java.util.*;
 class TreeNode {
 	private int a;
 	private TreeNode left;
@@ -41,7 +41,10 @@ class BinaryTree {
 	
 	public BinaryTree(TreeNode root) {
 		this.root = root;
+		this.nodes = new ArrayList<TreeNode>();
 	}
+	
+	private ArrayList<TreeNode> nodes;
 	
 	public void insert(TreeNode root ,  TreeNode node) {
 		if(root != null) {
@@ -63,19 +66,38 @@ class BinaryTree {
 		}
 	}
 	
-	public TreeNode delete() {
-		return null;
+	public TreeNode delete(TreeNode root,int data) {
+		TreeNode node = null;
+		if(root != null) {
+			if (root.getLeft() != null && data == root.getLeft().getData()) {
+				node = root.getLeft();
+				root.setLeft(null);
+				return node;
+			} else if (root.getRight() != null && data == root.getRight().getData()) {
+				node = root.getRight();
+				root.setRight(null);
+				return node;
+			}
+			
+			if(data > root.getData()) {
+				node = delete(root.getRight() , data);
+				return node;
+			} else {
+				node = delete(root.getLeft() , data);
+				return node;
+			}
+		}
+		return node;
 	}
 	
-	public TreeNode search( TreeNode root, int data) {
+	public void search( TreeNode root, int data) {
 		if(root != null) {
 			if (data == root.getData()) {
-				return root;
+				System.out.println(""+root.getData() +" found");
 			}
 			search(root.getRight() , data);
 			search(root.getLeft() , data);
 		}
-		return null;
 	}
 	
 	public void inorder(TreeNode root) {
@@ -86,7 +108,7 @@ class BinaryTree {
 		}
 	}
 	
-	public void preorder() {
+	public void preorder(TreeNode root) {
 		if(root != null) {
 			System.out.println(""+root.getData());
 			inorder(root.getLeft());
@@ -94,7 +116,7 @@ class BinaryTree {
 		}
 	}
 	
-	public void postorder() {
+	public void postorder(TreeNode root) {
 		if(root != null) {
 			inorder(root.getLeft());
 			inorder(root.getRight());
@@ -102,8 +124,25 @@ class BinaryTree {
 		}
 	}
 	
-	public void levelorder() {
-		
+	public void levelorder(TreeNode root) {
+		if(root != null) {
+			nodes.add(root);
+			TreeNode node = nodes.remove(0);
+			while (true){
+				System.out.println("" + node.getData());
+				if (node.getLeft() != null) {
+					nodes.add(node.getLeft());
+				}
+				if (node.getRight() != null) {
+					nodes.add(node.getRight());
+				}
+				try {
+					node = nodes.remove(0);
+				} catch(IndexOutOfBoundsException e) {
+					break;
+				}	
+			}
+		}
 	}
 }
 
@@ -121,11 +160,16 @@ class BinaryTreeTest {
 		bt.insert(root , new TreeNode(9));
 		bt.insert(root , new TreeNode(12));
 		bt.inorder(root);
-		TreeNode node = bt.search(root , 6);
+		bt.search(root , 6);
+		TreeNode node = bt.delete(root , 12);
 		if(node != null) {
-			System.out.println(""+node.getData());
+			System.out.println(""+node.getData() +" deleted");
 		}else {
-			System.out.println("not found");
+			System.out.println("not deleted");
 		}
+		bt.inorder(root);
+		System.out.println("level order: ");
+		bt.levelorder(root);
+		
 	}
 }

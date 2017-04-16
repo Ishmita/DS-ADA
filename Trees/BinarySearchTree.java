@@ -66,28 +66,43 @@ class BinaryTree {
 		}
 	}
 	
-	public TreeNode delete(TreeNode root,int data) {
+	public void delete (int key) {
+		root = del(root , key);
+	} 
+	
+	private TreeNode del(TreeNode root,int data) {
 		TreeNode node = null;
-		if(root != null) {
-			if (root.getLeft() != null && data == root.getLeft().getData()) {
-				node = root.getLeft();
-				root.setLeft(null);
-				return node;
-			} else if (root.getRight() != null && data == root.getRight().getData()) {
-				node = root.getRight();
-				root.setRight(null);
-				return node;
-			}
-			
-			if(data > root.getData()) {
-				node = delete(root.getRight() , data);
-				return node;
-			} else {
-				node = delete(root.getLeft() , data);
-				return node;
+		if(root == null) {
+			return root;
+		}
+		
+		if (data < root.getData()) {
+			root.setLeft(del(root.getLeft(), data));
+		}
+		else if (data > root.getData()) {
+			root.setRight(del(root.getRight(), data));
+		}
+		
+		else {
+			if (root.getLeft() == null) 
+				return root.getRight();
+			else if (root.getRight() == null) 
+				return root.getLeft();
+			else {
+				root.setData(minValue(root.getRight()));
+				
+				root.setRight(del(root.getRight() , root.getData()));
 			}
 		}
-		return node;
+		
+		return root;
+	}
+	
+	private int minValue(TreeNode node) {
+		while (node.getLeft() != null) {
+			node = node.getLeft();
+		}
+		return node.getData();
 	}
 	
 	public void search( TreeNode root, int data) {
@@ -146,14 +161,15 @@ class BinaryTree {
 	}
 }
 
-class BinaryTreeTest {
+class BinarySearchTree {
 	public static void main(String s[]) {
 		
-		TreeNode root = new TreeNode(5);
+		TreeNode root = new TreeNode(7);
 		
 		BinaryTree bt = new BinaryTree(root);
-		bt.insert(root ,new TreeNode(3));
+		bt.insert(root ,new TreeNode(2));
 		bt.insert(root , new TreeNode(4));
+		bt.insert(root ,new TreeNode(3));		
 		bt.insert(root , new TreeNode(8));
 		bt.insert(root , new TreeNode(6));
 		bt.insert(root , new TreeNode(1));
@@ -161,12 +177,7 @@ class BinaryTreeTest {
 		bt.insert(root , new TreeNode(12));
 		bt.inorder(root);
 		bt.search(root , 6);
-		TreeNode node = bt.delete(root , 12);
-		if(node != null) {
-			System.out.println(""+node.getData() +" deleted");
-		}else {
-			System.out.println("not deleted");
-		}
+		bt.delete(2);
 		bt.inorder(root);
 		System.out.println("level order: ");
 		bt.levelorder(root);

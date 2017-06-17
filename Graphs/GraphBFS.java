@@ -6,7 +6,7 @@ class Graph {
 	private LinklistOperations[] vertices;
 	private boolean visited[];
 	private int vertexNames[];
-	
+
 	Graph(LinklistOperations v[], int vn[]) {
 		vertices = v;
 		visited = new boolean[v.length];
@@ -16,10 +16,22 @@ class Graph {
 		vertexNames = vn;
 	}
 	
+	public LinklistOperations[] getVertices() {
+		return vertices;
+	} 
+	
+	public boolean[] getVisitedList() {
+		return visited;
+	}
+	
+	public int[] getVertexNames() {
+		return vertexNames;
+	}
+	
 	public void addEdge(int i , int j) {
 		if (i >= 0 && j >=0 && i < vertices.length && j < vertices.length) {
 			vertices[i].insertEnd(j);
-			vertices[j].insertEnd(i);
+			//vertices[j].insertEnd(i);
 		}
 	}
 	
@@ -61,7 +73,7 @@ class Graph {
 			try {
 				LinklistOperations u = vertices[queue.get(0)];
 				visited[queue.get(0)] = true;
-				queue.remove(queue.get(0));
+				queue.remove(0);
 				count--;
 								
 				Node head = u.getHead();
@@ -84,7 +96,7 @@ class Graph {
 				}
 				
 			} catch (Exception e) {
-				break;
+				e.printStackTrace();
 			}
 		}
 		

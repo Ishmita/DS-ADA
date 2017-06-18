@@ -4,6 +4,15 @@ class Node {
 	
 	int data;
 	Node next = null;
+	private boolean flag;
+	
+	public void setFlag(boolean f) {
+		flag = f;
+	}
+	
+	public boolean getFlag() {
+		return flag;
+	}
 	
 	public void setData(int data) {
 		this.data = data;
@@ -26,6 +35,7 @@ class LinklistOperations {
 	
 	// head is the pointer pointing to the first node of the linklist
 	private Node head;
+	
 	
 	public Node getHead() {
 		return head;
